@@ -1,0 +1,123 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>WishBack</title>
+          <link rel="stylesheet" href="/static/css/style.css">
+
+
+  </head>
+  <body>
+  <style type="text/css">
+  .navbar-nav .profile-image {
+width: 30px;
+height: 30px;
+margin: -15px 15px -15px 0;
+}
+  </style>
+<div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">WishBack</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          
+        
+          <li><fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button></li>
+          <ul class="nav navbar-nav navbar-right"><li class="dropdown"><a href="#" data-toggle="dropdown" class="dropdown-toggle">
+          {% if current_user %}
+          <img src="https://graph.facebook.com/100001531152952/picture?type=large" class="profile-image">
+          {{ current_user.name|escape }}&nbsp;<i class="caret"></i></a>
+          {% endif %}
+          </ul></li></ul>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+    
+
+    {% if current_user %}
+ <!--       <p><a href="{{ current_user.profile_url }}"><img src="http://graph.facebook.com/{{ current_user.id }}/picture?type=square"/></a></p>
+
+    <p>Hello, {{ current_user.access_token|escape }}</p>-->
+    {% endif %}
+
+    <div id="fb-root"></div>
+    
+    {% if current_user %}
+	    <div>
+	   
+		 <!-- <form method="post">
+		   Enter URL to URLFetch from:
+       <label for="message">Your Message</label>
+       <input type="text" name="message"/>
+       <label for="timestamp">Add The TimeStamp</label>
+       <input type="text" name="time"/>
+
+		   <input type="submit"/>
+		   </form>-->
+       <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
+       <div class="col-lg-6" style="margin-top:200px">
+            <div class="well">
+              <form class="bs-example form-horizontal" method="post">
+                <fieldset>
+                  <legend> WishBack </legend>
+                  
+
+                  <div class="form-group">
+                    <label for="textArea" class="col-lg-2 control-label">Add you Message:</label>
+                    <div class="col-lg-10">
+                      <textarea class="form-control" name="message" rows="3" id="textArea"></textarea>
+                       <label for="textArea" class="control-label">Limit:</label>
+                      <input class="form-control" name="limit">
+                      <span class="help-block">This message will be posting you as comment.</span>
+                    </div>
+                  </div>
+                                        
+                    </div>
+                  </div>
+                  
+                  <div class="form-group">
+                    <div class="col-lg-10 col-lg-offset-2">
+                     <button type="submit" class="btn btn-primary">Wishback</button>
+                     {% if current_user %}
+<fb:login-button show-faces="true" width="200" max-rows="1"></fb:login-button>
+  <fb:login-button autologoutlink="true" scope="publish_stream"></fb:login-button>
+    {% endif %}
+                     
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+          </div>
+
+	    </div>
+    {% endif %}
+    <script>
+      window.fbAsyncInit = function() {
+        FB.init({appId: '{{ facebook_app_id }}', status: true, cookie: true,
+                 xfbml: true});
+        FB.Event.subscribe('{% if current_user %}auth.logout{% else %}auth.login{% endif %}', function(response) {
+          {% if current_user %} window.location = "/logout" {% else %} window.location.reload(); {% endif %}
+        });
+      };
+      (function() {
+        var e = document.createElement('script');
+        e.type = 'text/javascript';
+        e.src = document.location.protocol + '//connect.facebook.net/en_US/all.js';
+        e.async = true;
+        document.getElementById('fb-root').appendChild(e);
+      }());
+    </script>
+  </body>
+</html>
